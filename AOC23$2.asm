@@ -169,9 +169,15 @@ CHECK_COMPLETE EQU *
          CVB   R0,CPACKED      Load on R0 the max blue
          MSR   R9,R0           Multiply
 
+         AR    R7,R9  Add product to sum
+
          CVD   R9,CPACKED
          UNPK  RECOUT+40(9),CPACKED(L'CPACKED+1)
          MVC   RECOUT+40+7(2),=C'  ' Get rid of the "C" for packed dec
+
+         CVD   R7,CPACKED
+         UNPK  RECOUT+50(9),CPACKED(L'CPACKED+1)
+         MVC   RECOUT+50+7(2),=C'  ' Get rid of the "C" for packed dec
 
          PUT   FILEOUT,RECOUT
 
@@ -203,7 +209,7 @@ FILEOUT  DCB   DSORG=PS,                                               X
                RECFM=FB,                                               X
                LRECL=L'RECOUT
 *
-RECIN    DS    CL80  255      INPUT AREA FOR RECORDS
+RECIN    DS    CL255      INPUT AREA FOR RECORDS
 BLANK    DC    C' '       TO BLANK RECOUT
 *
 REDMAX   DS    CL2      Max red will be kept here
@@ -246,14 +252,7 @@ SCANTAB  DC    256X'00'         All of the characters, except for
 //DATASORT DD SYSOUT=*
 //FILEOUT  DD  SYSOUT=*
 //SYSUDUMP DD  SYSOUT=*,OUTLIM=5000
-//FILEIN   DD  *
-Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
-Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
-Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
-Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
-//
-//
+//*FILEIN   DD  *
 //FILEIN   DD  DISP=SHR,DSN=AOC1LV.LEO.INPUT(AOC23I2)
 //
 //
